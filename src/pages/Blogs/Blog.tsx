@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import blogbg from '../../assets/blogbg.jpg';
-import loader from '../../assets/loader.gif';
-import blogpage from '../../assets/blogpage.png';
-
+import blogbg from '../../new_assets/blogbg.webp';
+import loader from '../../new_assets/loader.webp';
+import blogpage from '../../new_assets/blogpage.webp';
+import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
 type BlogPost = {
@@ -66,14 +66,14 @@ const Blog = () => {
 
   const extractFirst20Words = (text: string): string => {
     const words = text.split(' ');
-    const first20Words = words.slice(0, 20);
+    const first20Words = words.slice(0, 16);
     return first20Words.join(' ') + (words.length > 20 ? '...' : '');
   };
-
+  
   if (loading) {
     return <div className='w-full h-screen flex justify-center items-center'><img className='w-8' src={loader} alt="" /></div>;
   }
-
+  
   if (!blogPosts.length) {
     return <div>{t('No posts found')}</div>;
   }
@@ -109,26 +109,43 @@ const Blog = () => {
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          {paginatedPosts.map((post: BlogPost) => (
-            <div key={post._id} className="flex flex-col md:flex-row gap-6">
-              <div className="flex-shrink-0 md:w-1/3">
-                <Link to={`/blogpost/${post._id}/${post.title}`}>
-                  <img src={post.imageUrl || blogpage} alt={post.title} className="rounded-lg object-cover w-full h-[200px]" />
-                </Link>
-              </div>
-              <div className="flex flex-col flex-grow">
-                <h2 className="text-lg font-semibold text-black mb-2">
-                  <Link to={`/blogpost/${post._id}/${post.title}`} className="hover:text-blue-900">
-                    {post.title}
-                  </Link>
-                </h2>
-                <p className="relative text-gray-700 max-h-[100px] overflow-hidden md:max-h-none md:overflow-visible">
-                  {extractFirst20Words(post.description)}
-                  <span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white to-transparent md:hidden"></span>
-                </p>
-              </div>
-            </div>
-          ))}
+        {paginatedPosts.map((post: BlogPost) => (
+        <div key={post._id} className="flex flex-col md:flex-row gap-6">
+          
+          {/* SEO Meta Tags */}
+          <Helmet>
+            {/* <title>{post.title || 'Blog Post Title'}</title> */}
+            <title>Adiray Global | Blogs</title>
+            <meta name="description" content={extractFirst20Words(post.description) || 'Blog post description'} />
+            <meta name="keywords" content={`Blog, ${post.title}`} />
+            <meta property="og:title" content={post.title || 'Blog Post Title'} />
+            <meta property="og:description" content={post.description || 'Blog post description'} />
+            <meta property="og:image" content={post.imageUrl || blogpage} />
+            <meta property="og:url" content={`https://www.adirayglobal.com/blogpost/${post._id}/${post.title}`} />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={post.title || 'Blog Post Title'} />
+            <meta name="twitter:description" content={post.description || 'Blog post description'} />
+            <meta name="twitter:image" content={post.imageUrl || blogpage} />
+          </Helmet>
+          
+          <div className="flex-shrink-0 md:w-1/3">
+            <Link to={`/blogpost/${post._id}/${post.title}`}>
+              <img src={post.imageUrl || blogpage} alt={post.title} className="rounded-lg object-cover w-full h-[200px]" />
+            </Link>
+          </div>
+          <div className="flex flex-col flex-grow">
+            <h2 className="text-lg font-semibold text-black mb-2">
+              <Link to={`/blogpost/${post._id}/${post.title}`} className="hover:text-blue-900">
+                {post.title}
+              </Link>
+            </h2>
+            <p className="relative text-gray-700 max-h-[100px] overflow-hidden md:max-h-none md:overflow-visible">
+              {extractFirst20Words(post.description)}
+              <span className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white to-transparent md:hidden"></span>
+            </p>
+          </div>
+        </div>
+      ))}
         </div>
           <div className="flex flex-row mt-6">
           <div className="flex justify-center flex-wrap gap-2 space-x-2">

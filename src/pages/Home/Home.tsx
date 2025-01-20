@@ -1,19 +1,20 @@
 import React from "react";
 import Hero from "../../components/Hero";
-import supplychain from "../../assets/supplychain crm.mp4";
-import chat from "../../assets/chat.mp4";
+import supplychain from "../../new_assets/supplychain crm.mp4";
+import chat from "../../new_assets/chat.mp4";
 import Blog from "../../components/Blog";
 import Vision from "../../components/Vision";
-import vision3 from "../../assets/vision3.png";
+import vision3 from "../../new_assets/vision3.webp";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useTranslation } from "react-i18next";
-import fieo from "../../assets/fieo.png";
-import msme from "../../assets/msme.png";
+import fieo from "../../new_assets/fieo.webp";
+import msme from "../../new_assets/msme.webp";
 import { Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
-import AdirayPortfolio from "../../assets/AdirayPortfolio.pdf";
-import AdirayPortfoliohindi from "../../assets/AdirayPortfoliohindi.pdf";
+import { useState, useEffect } from "react";
+import AdirayPortfolio from "../../new_assets/AdirayPortfolio.pdf";
+import AdirayPortfoliohindi from "../../new_assets/AdirayPortfoliohindi.pdf";
+import { Helmet } from "react-helmet";
 const Home = () => {
   const { t } = useTranslation();
   React.useEffect(() => {
@@ -25,48 +26,58 @@ const Home = () => {
     });
     AOS.refresh();
   }, []);
-  const videoRefs = [useRef(), useRef(), useRef(), useRef()];
-  const [hindiPdf, setHindiPdf] = useState(false)
+  const [hindiPdf, setHindiPdf] = useState(false);
   useEffect(() => {
     if (t("home.aboutus.heading") == "हमारे बारे में") {
       setHindiPdf(true);
-    }
-    else {
+    } else {
       setHindiPdf(false);
     }
-  }, [t("home.aboutus.heading")])
+  }, [t("home.aboutus.heading")]);
 
   return (
     <>
+      <Helmet>
+        <title>Adiray Global | Home</title>
+        <meta
+          name="description"
+          content="Adiray Global is a leading company providing top-notch services and products worldwide."
+        />
+        <meta
+          name="keywords"
+          content="Adiray Global, services, products, worldwide, leading company"
+        />
+        <meta name="author" content="Adiray Global" />
+        <meta property="og:title" content="Adiray Global - Home" />
+        <meta
+          property="og:description"
+          content="Adiray Global is a leading company providing top-notch services and products worldwide."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.adirayglobal.com" />
+      </Helmet>
       <main className="pt-[10vh]  flex-auto gap-10 relative">
         <Hero />
         <section className="relative  flex justify-center items-center overflow-hidden ">
-  <div className="relative w-full h-full flex justify-center items-center">
-    <div className="w-full relative" style={{ paddingTop: "50.10%" }}>
-      <video
-        className="absolute top-0 left-0 w-full h-full object-contain"
-        src={chat}
-        autoPlay
-        muted
-        playsInline
-        loop
-        webkit-playsinline
-      />
-    </div>
-    {/* <div className="absolute w-full h-full inset-0 flex justify-center items-center backdrop-blur-sm bg-[#7797bc69] content">
-      <h2 className="text-white text-[clamp(40px,3vw,4rem)] font-medium">
-        Chatbot Video Section
-      </h2>
-    </div> */}
-  </div>
-</section>
-
-
+          <div className="relative w-full h-full flex justify-center items-center">
+            <div className="w-full relative" style={{ paddingTop: "50.10%" }}>
+              <video
+                className="absolute top-0 left-0 w-full h-full object-contain"
+                src={chat}
+                autoPlay
+                muted
+                playsInline
+                loop
+                webkit-playsInline="true"
+              />
+            </div>
+          </div>
+        </section>
 
         <section className="relative">
           <Vision></Vision>
         </section>
-          {/* About Section */}
+        {/* About Section */}
         <section className="relative h-[100vh] sm:h-[200vh] md:h-[100vh] overflow-hidden object-cover">
           <video
             className=" z-50 md:h-auto h-[100%] object-cover aspect-video"
@@ -75,18 +86,11 @@ const Home = () => {
             muted
             playsInline
             loop
-
-
-          
-            webkit-playsInline
-
+            webkit-playsInline="true"
           />
           <div className="absolute w-full h-full inset-0 flex items-center justify-center backdrop-blur-md   bg-[#121e2c69]">
             <div className="flex flex-col justify-between gap-[1.5rem] max-w-screen-lg px-8">
-              <div
-
-                className="flex flex-col gap-2 items-center"
-              >
+              <div className="flex flex-col gap-2 items-center">
                 <h1 className="text-[clamp(40px,3vw,4rem)] font-bold text-white font-Mont">
                   {" "}
                   {t("home.aboutus.heading")}
@@ -96,33 +100,52 @@ const Home = () => {
                 </p>
                 {/*download button*/}
                 <div className="mt-3 w-full flex justify-center">
-                  {hindiPdf ? <button className="bg-white w-[15%] text-md h-10 rounded-lg">
-                    <a className="text-md" href={AdirayPortfoliohindi} download="Adiray Portfolio">
-                      Read more
-                    </a>
-                  </button> :
-                    <button className="bg-white w-[200px] text-md h-10 rounded-lg">
-                      <a className="text-md" href={AdirayPortfolio} download="Adiray Portfolio">
+                  {hindiPdf ? (
+                    <button className="bg-white w-[15%] text-md h-10 rounded-lg">
+                      <a
+                        className="text-md"
+                        href={AdirayPortfoliohindi}
+                        download="Adiray Portfolio"
+                        aria-label="Download Adiray Portfolio"
+                      >
                         Read more
                       </a>
-                    </button>}
+                    </button>
+                  ) : (
+                    <button className="bg-white w-[200px] text-md h-10 rounded-lg">
+                      <a
+                        className="text-md"
+                        href={AdirayPortfolio}
+                        download="Adiray Portfolio"
+                        aria-label="Download Adiray Portfolio"
+                      >
+                        Read more
+                      </a>
+                    </button>
+                  )}
                 </div>
               </div>
 
               {/* Insert Logo Below */}
               <div className=" flex justify-center items-center   md:gap-8 gap-4">
                 <Link to="https://fieo.org/?token=F6akj6K7Q4_2522922">
-                  
-                    <img
-                      className="sm:w-[200px] w-[100px]"
-                      src={fieo}
-                      alt=""
-                    />
-                 
+                  <img
+                    className="sm:w-[200px] w-[100px]"
+                    src={fieo}
+                    alt="Fieo"
+                  />
                 </Link>
 
-                <img className="sm:w-[200px] w-[100px] " src={msme} alt="" />
-                <img className="sm:w-[200px] w-[100px] " src={vision3} alt="" />
+                <img
+                  className="sm:w-[200px] w-[100px] "
+                  src={msme}
+                  alt="MSME logo"
+                />
+                <img
+                  className="sm:w-[200px] w-[100px] "
+                  src={vision3}
+                  alt="Vision Logo"
+                />
               </div>
 
               {/* End of Logo Insertion */}
